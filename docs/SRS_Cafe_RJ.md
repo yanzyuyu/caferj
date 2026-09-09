@@ -246,64 +246,99 @@ Pengembangan sistem POS Cafe RJ menggunakan metode **Waterfall (Model Air Terjun
 ### E. PERANCANGAN ALUR SISTEM (UML & DATA)
 
 #### 1. Use Case Diagram
-Menggambarkan hubungan antara aktor Kasir dan Admin dengan fungsionalitas sistem:
+Menggambarkan interaksi aktor Kasir dan Admin dengan seluruh fitur di dalam sistem aplikasi kasir:
 
 ```mermaid
-graph LR
-    subgraph Sistem POS Cafe RJ
-        UC1((Login / Logout))
-        UC2((Transaksi POS & Keranjang))
-        UC3((Pilih Multi-Payment))
-        UC4((Cetak Struk Pembelian))
-        UC5((Kelola Kategori Menu))
-        UC6((Kelola Produk & Upload Foto))
-        UC7((Kelola Akun Kasir / User))
-        UC8((Laporan & Rekapitulasi Omzet))
+flowchart LR
+    subgraph APP["☕ APLIKASI KASIR CAFE"]
+        Login(["1. Login Akun"]):::loginNode
+
+        subgraph KASIR_BOX["📋 Fitur Kasir"]
+            UC_K1(["Pilih Menu & Kategori"]):::ucNode
+            UC_K2(["Kelola Keranjang Pesanan"]):::ucNode
+            UC_K3(["Hitung Bayar & Kembalian"]):::ucNode
+            UC_K4(["Cetak Struk Pembelian"]):::ucNode
+            UC_K5(["Lihat Riwayat Kasir"]):::ucNode
+        end
+
+        subgraph ADMIN_BOX["⚙️ Fitur Admin"]
+            UC_A1(["Kelola Kategori Menu"]):::ucNode
+            UC_A2(["Kelola Data Produk"]):::ucNode
+            UC_A3(["Kelola Akun Kasir"]):::ucNode
+            UC_A4(["Lihat Laporan Omzet Penjualan"]):::ucNode
+        end
     end
 
-    Kasir --> UC1
-    Kasir --> UC2
-    Kasir --> UC3
-    Kasir --> UC4
+    Kasir["👤 KASIR"]:::actorKasir
+    Admin["👑 ADMIN"]:::actorAdmin
 
-    Admin --> UC1
-    Admin --> UC5
-    Admin --> UC6
-    Admin --> UC7
-    Admin --> UC8
-    Admin --> UC4
+    Kasir --> Login
+    Kasir --> UC_K1
+    Kasir --> UC_K2
+    Kasir --> UC_K3
+    Kasir --> UC_K4
+    Kasir --> UC_K5
+
+    Admin --> Login
+    Admin --> UC_K1
+    Admin --> UC_K2
+    Admin --> UC_K3
+    Admin --> UC_K4
+    Admin --> UC_K5
+    Admin --> UC_A1
+    Admin --> UC_A2
+    Admin --> UC_A3
+    Admin --> UC_A4
+
+    classDef actorKasir fill:#18181b,stroke:#a1a1aa,color:#ffffff,stroke-width:2px,font-weight:bold;
+    classDef actorAdmin fill:#18181b,stroke:#f59e0b,color:#ffffff,stroke-width:2px,font-weight:bold;
+    classDef loginNode fill:#fef3c7,stroke:#d97706,color:#92400e,stroke-width:2px,font-weight:bold;
+    classDef ucNode fill:#ffffff,stroke:#52525b,color:#18181b,stroke-width:1.5px;
 ```
 
 ---
 
 #### 2. Activity Diagram: Alur Transaksi Kasir
-Menggambarkan alur langkah pemesanan hingga pencetakan struk:
+Menggambarkan diagram alur kerja prosedural (*workflow*) kasir dalam melayani pesanan, memilih metode bayar, hingga mencetak struk:
 
 ```mermaid
-sequenceDiagram
-    autonumber
-    actor Pelanggan
-    actor Kasir
-    participant Sistem POS
-    participant Database
+flowchart TD
+    Start((●)) --> BukaPOS["Kasir Membuka Terminal POS"]
+    BukaPOS --> FilterKategori["Pilih Kategori Menu & Klik Produk"]
+    FilterKategori --> MasukCart["Produk Masuk ke Keranjang Pesanan"]
+    MasukCart --> CekQty{"Ubah Jumlah (Qty)?"}
+    CekQty -- Ya --> UpdateQty["Klik Stepper (+) / (-) / Hapus"]
+    UpdateQty --> HitungTotal["Sistem Menghitung Total Belanja"]
+    CekQty -- Tidak --> HitungTotal
 
-    Pelanggan->>Kasir: Memesan menu & menyebutkan pesanan
-    Kasir->>Sistem POS: Klik menu pada katalog kasir
-    Sistem POS->>Sistem POS: Tambahkan ke Keranjang & Hitung Subtotal
-    Kasir->>Sistem POS: Pilih Metode Bayar (Tunai / QRIS / Transfer)
-    alt Metode Tunai
-        Kasir->>Sistem POS: Input uang tunai / Klik preset
-        Sistem POS->>Sistem POS: Hitung Uang Kembalian
-    else Metode QRIS
-        Sistem POS->>Pelanggan: Tampilkan QR Code Standee / Modal Layar
-    else Metode Transfer
-        Sistem POS->>Pelanggan: Tampilkan Nomor Rekening Bank Resmi
-    end
-    Kasir->>Sistem POS: Klik tombol "Bayar & Cetak Struk"
-    Sistem POS->>Database: Simpan transaksi & kurangi stok produk
-    Database-->>Sistem POS: Transaksi sukses
-    Sistem POS->>Kasir: Munculkan dialog cetak Struk (Faktur / Thermal)
-    Kasir->>Pelanggan: Serahkan pesanan dan bukti struk lunas
+    HitungTotal --> PilihMetode{"Pilih Metode Bayar"}
+
+    PilihMetode -- Tunai --> InputTunai["Kasir Input Uang Diterima / Preset"]
+    InputTunai --> HitungKembalian["Sistem Otomatis Hitung Uang Kembalian"]
+    HitungKembalian --> KonfirmasiBayar["Klik 'Bayar & Cetak Struk'"]
+
+    PilihMetode -- QRIS --> TampilQRIS["Sistem Menampilkan QR Code Standee / Modal Layar"]
+    TampilQRIS --> ScanBayar["Pelanggan Scan & Bayar via E-Wallet"]
+    ScanBayar --> KonfirmasiBayar
+
+    PilihMetode -- Transfer --> TampilRek["Sistem Tampilkan Rekening Bank (BCA/Mandiri/BRI)"]
+    TampilRek --> SalinRek["Salin No. Rekening & Cek Mutasi"]
+    SalinRek --> KonfirmasiBayar
+
+    KonfirmasiBayar --> Validasi{"Validasi Transaksi?"}
+    Validasi -- Gagal / Uang Kurang --> MunculAlert["Tampilkan Notifikasi Peringatan"]
+    MunculAlert --> HitungTotal
+
+    Validasi -- Sukses --> SimpanDB["Simpan Transaksi & Detail ke Database"]
+    SimpanDB --> PotongStok["Kurangi Stok Produk Otomatis"]
+    PotongStok --> BukaStruk["Buka Dialog Cetak Struk (Faktur A4 / Thermal 80mm)"]
+    BukaStruk --> Selesai((◎))
+
+    classDef default fill:#ffffff,stroke:#27272a,color:#18181b,stroke-width:1.5px;
+    classDef decision fill:#f4f4f5,stroke:#71717a,color:#09090b,stroke-width:1.5px;
+    classDef startEnd fill:#18181b,stroke:#18181b,color:#ffffff;
+    class Start,Selesai startEnd;
+    class CekQty,PilihMetode,Validasi decision;
 ```
 
 ---
@@ -311,71 +346,79 @@ sequenceDiagram
 #### 3. Diagram Pendukung
 
 ##### a. ERD (Entity Relationship Diagram)
-Menjelaskan 5 tabel basis data dalam database `caferj`:
+Menjelaskan struktur relasi 5 entitas basis data dalam database `caferj`:
 
 ```mermaid
 erDiagram
-    USERS ||--o{ TRANSACTIONS : "melayani"
-    CATEGORIES ||--o{ PRODUCTS : "mengelompokkan"
-    TRANSACTIONS ||--|{ TRANSACTION_DETAILS : "memiliki rincian"
-    PRODUCTS ||--o{ TRANSACTION_DETAILS : "dijual dalam"
-
-    USERS {
-        bigint id PK
-        string nama
-        string email UK
-        string password
-        enum role "admin, kasir"
-        timestamp created_at
-    }
+    CATEGORIES ||--o{ PRODUCTS : "punya banyak"
+    USERS ||--o{ TRANSACTIONS : "membuat"
+    TRANSACTIONS ||--|{ TRANSACTION_DETAILS : "berisi"
+    PRODUCTS ||--o{ TRANSACTION_DETAILS : "dijual di"
 
     CATEGORIES {
-        bigint id PK
+        int id PK
         string nama_kategori
-        timestamp created_at
     }
 
     PRODUCTS {
-        bigint id PK
-        bigint category_id FK
+        int id PK
+        int category_id FK
         string nama_menu
-        decimal harga
+        int harga
         int stok
-        string gambar
-        timestamp created_at
+    }
+
+    USERS {
+        int id PK
+        string nama
+        string email
+        string role
     }
 
     TRANSACTIONS {
-        bigint id PK
-        bigint user_id FK
-        string no_transaksi UK
-        decimal total_harga
-        decimal total_bayar
-        decimal kembalian
-        enum metode_bayar "Cash, QRIS, Transfer"
-        timestamp tanggal_transaksi
+        int id PK
+        string no_invoice
+        int user_id FK
+        int total_bayar
+        string metode_bayar
+        datetime tanggal
     }
 
     TRANSACTION_DETAILS {
-        bigint id PK
-        bigint transaction_id FK
-        bigint product_id FK
-        int jumlah
-        decimal subtotal
+        int id PK
+        int transaction_id FK
+        int product_id FK
+        int jumlah_beli
+        int subtotal
     }
 ```
 
 ##### b. DFD (Data Flow Diagram) Konteks Level 0
-```
-                [Data Akun Login]
-     Kasir ───────────────────────────► ┌─────────────────────────┐
-           ◄─────────────────────────── │                         │
-                [Tampilan POS & Struk]  │                         │ ◄──► (Database MySQL `caferj`)
-                                        │   SISTEM POS CAFE RJ    │
-                [Master Data & Filter]  │                         │
-     Admin ───────────────────────────► │                         │
-           ◄─────────────────────────── │                         │
-                [Laporan Rekap Omzet]   └─────────────────────────┘
+Diagram aliran data konteks yang memodelkan interaksi entitas luar (Kasir & Admin) dengan sistem dan penyimpanan data:
+
+```mermaid
+flowchart TD
+    Kasir["👤 KASIR\n(External Entity)"]:::extEntity
+    Admin["👑 ADMIN\n(External Entity)"]:::extEntity
+    SistemPOS(["☕ SISTEM POS CAFE RJ\n(Proses 0: Level Konteks)"]):::sysProcess
+    DB[(🗄️ Database MySQL\n`caferj`)]:::dbNode
+
+    Kasir -- "1. Data Kredensial Login" --> SistemPOS
+    Kasir -- "2. Input Pesanan & Nominal Bayar" --> SistemPOS
+    SistemPOS -- "3. Info Menu & Keranjang Belanja" --> Kasir
+    SistemPOS -- "4. Struk Transaksi / Bukti Lunas" --> Kasir
+
+    Admin -- "1. Data Kredensial Login Admin" --> SistemPOS
+    Admin -- "2. Input Master Kategori, Menu & Akun" --> SistemPOS
+    Admin -- "3. Parameter Filter Laporan Omzet" --> SistemPOS
+    SistemPOS -- "4. Data Master & Dashboard Metrik" --> Admin
+    SistemPOS -- "5. Rekapitulasi Laporan Penjualan" --> Admin
+
+    SistemPOS <--> |"Query Baca & Tulis Data Transaksi, Detail, Produk, Stok"| DB
+
+    classDef sysProcess fill:#18181b,stroke:#3b82f6,color:#ffffff,stroke-width:2.5px,font-weight:bold;
+    classDef dbNode fill:#f4f4f5,stroke:#18181b,color:#18181b,stroke-width:2px,font-weight:bold;
+    classDef extEntity fill:#ffffff,stroke:#52525b,color:#18181b,stroke-width:2px,font-weight:bold;
 ```
 
 ---
