@@ -453,105 +453,105 @@ flowchart LR
 
 ### D. PERANCANGAN MOCKUP / WIREFRAME (HITAM PUTIH - LOW FIDELITY)
 
-Bagian ini menyajikan rancangan kerangka kasar dasar antarmuka (*wireframe* monokrom hitam putih) untuk memetakan tata letak fungsional komponen sebelum diberi desain warna dan styling visual akhir. Tersedia 3 bagian mockup hitam putih:
+Bagian ini menyajikan rancangan kerangka kasar dasar antarmuka (*wireframe* monokrom hitam putih) untuk memetakan tata letak fungsional komponen sebelum diberi desain warna dan styling visual akhir. Terdapat 3 gambar mockup hitam putih:
 
-#### 1. Mockup / Wireframe Hitam Putih 1: Terminal Kasir POS Utama
+#### 1. Mockup / Wireframe Hitam Putih 1: Halaman Login Pengguna
+Memetakan tata letak kotak formulir autentikasi akun kasir dan admin (input email, password, dan tombol masuk).
+
+```
++-------------------------------------------------------------------------+
+|                                                                         |
+|            [ MOCKUP 1: WIREFRAME HITAM PUTIH HALAMAN LOGIN ]            |
+|                                                                         |
+|  (File tersedia di: docs/wireframe_login.png)                           |
+|                                                                         |
++-------------------------------------------------------------------------+
+```
+*Gambar 3.5: Wireframe Hitam Putih 1 - Halaman Login Pengguna*
+
+---
+
+#### 2. Mockup / Wireframe Hitam Putih 2: Terminal Kasir POS Utama
 Memetakan tata letak bilah kategori menu, susunan grid kartu produk, serta panel keranjang belanja dan tombol checkout.
 
 ```
 +-------------------------------------------------------------------------+
 |                                                                         |
-|         [ TEMPELKAN MOCKUP 1: WIREFRAME HITAM PUTIH KASIR POS ]         |
+|          [ MOCKUP 2: WIREFRAME HITAM PUTIH KASIR POS UTAMA ]            |
 |                                                                         |
 |  (File tersedia di: docs/wireframe_kasir_pos.png)                       |
 |                                                                         |
 +-------------------------------------------------------------------------+
 ```
-*Gambar 3.5: Wireframe Hitam Putih 1 - Terminal Kasir POS Utama*
+*Gambar 3.6: Wireframe Hitam Putih 2 - Terminal Kasir POS Utama*
 
 ---
 
-#### 2. Mockup / Wireframe Hitam Putih 2: Panel Administrator dan Master Data
+#### 3. Mockup / Wireframe Hitam Putih 3: Panel Administrator dan Master Data
 Memetakan tata letak sidebar menu admin, 4 kartu ringkasan omzet, serta tabel master data produk cafe.
 
 ```
 +-------------------------------------------------------------------------+
 |                                                                         |
-|        [ TEMPELKAN MOCKUP 2: WIREFRAME HITAM PUTIH PANEL ADMIN ]        |
+|        [ MOCKUP 3: WIREFRAME HITAM PUTIH PANEL ADMINISTRATOR ]          |
 |                                                                         |
 |  (File tersedia di: docs/wireframe_admin_dashboard.png)                 |
 |                                                                         |
 +-------------------------------------------------------------------------+
 ```
-*Gambar 3.6: Wireframe Hitam Putih 2 - Panel Administrator dan Master Data*
-
----
-
-#### 3. Mockup / Wireframe Hitam Putih 3: Modal Pembayaran QRIS Pelanggan
-Memetakan tata letak kotak dialog pembesar kode barcode QRIS agar pelanggan mudah memindai pembayaran.
-
-```
-+-------------------------------------------------------------------------+
-|                                                                         |
-|         [ TEMPELKAN MOCKUP 3: WIREFRAME HITAM PUTIH MODAL QRIS ]        |
-|                                                                         |
-|  (File tersedia di: docs/wireframe_pembayaran_qris.png)                 |
-|                                                                         |
-+-------------------------------------------------------------------------+
-```
-*Gambar 3.7: Wireframe Hitam Putih 3 - Modal Pembayaran QRIS Pelanggan*
+*Gambar 3.7: Wireframe Hitam Putih 3 - Panel Administrator dan Master Data*
 
 ---
 
 ### E. PERANCANGAN UI/UX & HASIL TAMPILAN WEB (FULL COLOR - HIGH FIDELITY)
 
-Bagian ini menyajikan hasil implementasi antarmuka pengguna (UI/UX) akhir yang sudah berwarna penuh (*full color*), berfoto produk asli, dan aktif beroperasi pada sistem web Cafe RJ POS. Tersedia 3 bagian tampilan UI/UX web:
+Bagian ini menyajikan hasil implementasi antarmuka pengguna (UI/UX) akhir yang sudah berwarna penuh (*full color*), berfoto produk asli, dan aktif beroperasi pada sistem web Cafe RJ POS. Terdapat 3 gambar tampilan UI/UX web:
 
-#### 1. UI/UX Hasil Tampilan Web 1: Terminal Kasir POS Aktif
+#### 1. UI/UX Hasil Tampilan Web 1: Halaman Login Sistem POS
+Tampilan antarmuka login aktif di browser web dengan kartu terpusat, logo Cafe RJ, dan form autentikasi multi-role.
+
+```
++-------------------------------------------------------------------------+
+|                                                                         |
+|          [ UI/UX 1: HASIL TAMPILAN WEB HALAMAN LOGIN POS ]              |
+|                                                                         |
+|  (File screenshot tersedia di: docs/login_web_screen.png)               |
+|                                                                         |
++-------------------------------------------------------------------------+
+```
+*Gambar 3.8: UI/UX Tampilan Web 1 - Halaman Login Sistem POS (Full Color)*
+
+---
+
+#### 2. UI/UX Hasil Tampilan Web 2: Terminal Kasir POS Aktif
 Tampilan kasir aktif di browser web dengan nuansa gelap (*dark zinc*), katalog foto menu berharga IDR, stepper keranjang, dan tab pembayaran multi-metode.
 
 ```
 +-------------------------------------------------------------------------+
 |                                                                         |
-|          [ TEMPELKAN UI/UX 1: HASIL TAMPILAN WEB KASIR POS ]            |
+|          [ UI/UX 2: HASIL TAMPILAN WEB KASIR POS UTAMA ]                |
 |                                                                         |
-|  (File tersedia di: docs/pos_cashier_mockup.jpg)                        |
+|  (File screenshot tersedia di: docs/pos_cashier_mockup.jpg)             |
 |                                                                         |
 +-------------------------------------------------------------------------+
 ```
-*Gambar 3.8: UI/UX Tampilan Web 1 - Terminal Kasir POS Aktif (Full Color)*
+*Gambar 3.9: UI/UX Tampilan Web 2 - Terminal Kasir POS Aktif (Full Color)*
 
 ---
 
-#### 2. UI/UX Hasil Tampilan Web 2: Dashboard & Manajemen Produk Admin
+#### 3. UI/UX Hasil Tampilan Web 3: Dashboard & Manajemen Produk Admin
 Tampilan panel admin aktif di browser web dengan metrik penjualan real-time serta tabel CRUD master menu lengkap dengan thumbnail gambar.
 
 ```
 +-------------------------------------------------------------------------+
 |                                                                         |
-|        [ TEMPELKAN UI/UX 2: HASIL TAMPILAN WEB DASHBOARD ADMIN ]        |
+|        [ UI/UX 3: HASIL TAMPILAN WEB DASHBOARD ADMIN & PRODUK ]         |
 |                                                                         |
-|  (File tersedia di: docs/admin_dashboard_mockup.jpg)                    |
-|                                                                         |
-+-------------------------------------------------------------------------+
-```
-*Gambar 3.9: UI/UX Tampilan Web 2 - Dashboard dan Manajemen Produk Admin (Full Color)*
-
----
-
-#### 3. UI/UX Hasil Tampilan Web 3: Format Cetak Struk Belanja & Bukti Lunas
-Tampilan dokumen bukti transaksi sah hasil cetak sistem kasir (mode Faktur Layar Penuh A4 atau Struk Mini Thermal 80mm).
-
-```
-+-------------------------------------------------------------------------+
-|                                                                         |
-|        [ TEMPELKAN UI/UX 3: HASIL CETAK STRUK / BUKTI TRANSAKSI ]       |
-|                                                                         |
-|  (Tangkapan layar hasil cetak struk dari browser kasir POS)             |
+|  (File screenshot tersedia di: docs/admin_dashboard_mockup.jpg)         |
 |                                                                         |
 +-------------------------------------------------------------------------+
 ```
-*Gambar 3.10: UI/UX Tampilan Web 3 - Hasil Cetak Struk Belanja Transaksi*
+*Gambar 3.10: UI/UX Tampilan Web 3 - Dashboard dan Manajemen Produk Admin (Full Color)*
 
 ---
 
