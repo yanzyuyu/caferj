@@ -28,7 +28,9 @@
             <tbody class="divide-y divide-zinc-100">
                 @forelse($transactions as $trx)
                 <tr class="hover:bg-zinc-50 transition-colors">
-                    <td class="px-5 py-3 font-mono text-xs text-zinc-700">{{ $trx->no_invoice }}</td>
+                    <td class="px-5 py-3 font-mono text-xs">
+                        <a href="{{ route('transactions.show', $trx) }}" class="text-zinc-900 font-semibold hover:underline">{{ $trx->no_invoice }}</a>
+                    </td>
                     <td class="px-5 py-3 text-zinc-600">{{ $trx->tanggal->format('d/m/Y H:i') }}</td>
                     @if(auth()->user()->role === 'admin')
                     <td class="px-5 py-3 text-zinc-600">{{ $trx->user->nama }}</td>

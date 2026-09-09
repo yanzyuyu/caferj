@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <rect width="64" height="64" rx="14" fill="#18181b"/>
+  <rect x="1" y="1" width="62" height="62" rx="13" fill="none" stroke="#27272a" stroke-width="1.5"/>
+  <path d="M22 13c-2 3 2 5 0 8" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+  <path d="M32 10c-2 3.5 2 5.5 0 10" stroke="#fbbf24" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+  <path d="M42 13c-2 3 2 5 0 8" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+  <path d="M41 30h4a6 6 0 0 1 6 6v1a6 6 0 0 1-6 6h-4" fill="none" stroke="#f4f4f5" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M16 26h28v14c0 7.732-6.268 14-14 14s-14-6.268-14-14V26z" fill="#fafafa"/>
+  <ellipse cx="30" cy="27" rx="12" ry="2.5" fill="#92400e"/>
+  <line x1="12" y1="55" x2="48" y2="55" stroke="#f59e0b" stroke-width="3" stroke-linecap="round"/>
+  <text x="30" y="44" font-family="'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" font-size="10" font-weight="900" fill="#18181b" text-anchor="middle">RJ</text>
+</svg>
