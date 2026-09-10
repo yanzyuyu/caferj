@@ -1,4 +1,4 @@
-﻿# Cafe RJ - Point of Sale (POS) & Order Management System
+# Cafe RJ - Point of Sale (POS) & Order Management System
 
 Sistem kasir digital (POS) berbasis Laravel 12 dan MySQL yang dirancang untuk mengelola pemesanan, multi-metode pembayaran, cetak struk faktur real-time, dan pencatatan transaksi operasional kedai kopi.
 
@@ -172,6 +172,56 @@ Database seeder menyediakan dua akun awal untuk pengujian operasional:
 |---|---|---|---|
 | Admin | admin@caferj.local | admin123 | Akses penuh: POS, Produk, Kategori, Riwayat Transaksi |
 | Kasir | kasir@caferj.local | kasir123 | Akses operasional: POS Terminal & Riwayat Transaksi |
+
+---
+
+## Hasil Pengujian & Verifikasi Kualitas
+
+### 1. Pengujian Otomatis (PHPUnit / Feature & Unit Tests)
+
+Pengujian menyeluruh pada fungsionalitas sistem autentikasi, proteksi hak akses kasir/admin, terminal POS, dan detail riwayat transaksi.
+
+```text
+$ php artisan test
+
+   PASS  Tests\Unit\ExampleTest
+  ✓ that true is true                                                                                            0.62s  
+
+   PASS  Tests\Feature\ExampleTest
+  ✓ guest is redirected to login from home                                                                       4.85s  
+  ✓ login page renders successfully                                                                              0.37s  
+  ✓ authenticated user can access pos                                                                            1.69s  
+
+   PASS  Tests\Feature\TransactionTest
+  ✓ user can view transaction history and detail                                                                 0.46s  
+  ✓ admin pages render successfully                                                                              0.68s  
+
+  Tests:    6 passed (18 assertions)
+  Duration: 13.82s
+```
+
+### 2. Audit Keamanan Kode Sumber (tyw-audit)
+
+Audit kode statis (SAST) untuk mendeteksi kerentanan injeksi, kebocoran kredensial, dan validasi input.
+
+```text
+$ npx tyw-cli scan . --format json
+{
+  "score": 100,
+  "status": "PASSED",
+  "summary": {
+    "total": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0,
+    "info": 0
+  },
+  "issues": []
+}
+```
+
+Hasil verifikasi: Status PASSED (Skor 100/100, 0 temuan kerentanan).
 
 ---
 

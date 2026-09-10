@@ -419,8 +419,8 @@ function printThermal() {
 }
 
 window.addEventListener('load', function() {
-    const isPrint = new URLSearchParams(window.location.search).get('print');
-    if (isPrint !== 'false') {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('print') !== 'false') {
         setTimeout(function() { window.print(); }, 350);
     }
 });

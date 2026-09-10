@@ -222,18 +222,12 @@
                                         class="w-full text-base font-bold border border-zinc-300 rounded-lg px-3 py-1.5 focus:outline-none focus:border-zinc-500 tabular-nums bg-white shadow-inner"
                                         placeholder="0"
                                     >
-                                    <div class="grid grid-cols-4 gap-1 mt-1.5">
-                                        <button type="button" onclick="setExactCash()" class="py-1 text-xs border border-zinc-200 rounded bg-zinc-50 text-zinc-700 hover:bg-zinc-100 font-semibold">Uang Pas</button>
-                                        <button type="button" onclick="addCash(20000)" class="py-1 text-xs border border-zinc-200 rounded bg-white text-zinc-600 hover:bg-zinc-50 font-medium">+20rb</button>
-                                        <button type="button" onclick="addCash(50000)" class="py-1 text-xs border border-zinc-200 rounded bg-white text-zinc-600 hover:bg-zinc-50 font-medium">+50rb</button>
-                                        <button type="button" onclick="addCash(100000)" class="py-1 text-xs border border-zinc-200 rounded bg-white text-zinc-600 hover:bg-zinc-50 font-medium">+100rb</button>
+                                    <div class="grid grid-cols-4 gap-1 sm:gap-1.5 mt-1.5">
+                                        <button type="button" onclick="setExactCash()" class="py-1.5 text-[11px] sm:text-xs font-semibold rounded-lg border border-zinc-200 bg-zinc-50 text-zinc-700 hover:bg-zinc-100 transition-colors text-center">Uang Pas</button>
+                                        <button type="button" onclick="setCashValue(20000)" class="py-1.5 text-[11px] sm:text-xs font-semibold rounded-lg border border-zinc-200 bg-white text-zinc-700 hover:bg-zinc-50 transition-colors text-center">Rp 20.000</button>
+                                        <button type="button" onclick="setCashValue(50000)" class="py-1.5 text-[11px] sm:text-xs font-semibold rounded-lg border border-zinc-200 bg-white text-zinc-700 hover:bg-zinc-50 transition-colors text-center">Rp 50.000</button>
+                                        <button type="button" onclick="setCashValue(100000)" class="py-1.5 text-[11px] sm:text-xs font-semibold rounded-lg border border-zinc-200 bg-white text-zinc-700 hover:bg-zinc-50 transition-colors text-center">Rp 100.000</button>
                                     </div>
-                                </div>
-
-                                <div class="grid grid-cols-3 gap-1 pt-0.5">
-                                    <button type="button" onclick="setCashValue(20000)" class="py-1 text-xs font-semibold rounded-lg border border-zinc-200 bg-zinc-50 text-zinc-700 hover:bg-zinc-100 transition-colors">Rp 20.000</button>
-                                    <button type="button" onclick="setCashValue(50000)" class="py-1 text-xs font-semibold rounded-lg border border-zinc-200 bg-zinc-50 text-zinc-700 hover:bg-zinc-100 transition-colors">Rp 50.000</button>
-                                    <button type="button" onclick="setCashValue(100000)" class="py-1 text-xs font-semibold rounded-lg border border-zinc-200 bg-zinc-50 text-zinc-700 hover:bg-zinc-100 transition-colors">Rp 100.000</button>
                                 </div>
                             </div>
 

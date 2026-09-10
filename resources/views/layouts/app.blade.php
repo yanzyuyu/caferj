@@ -44,14 +44,21 @@ tailwind.config = {
 </head>
 <body class="bg-zinc-50 font-sans text-zinc-800">
 
-<div class="flex min-h-screen">
-    <aside class="w-64 bg-zinc-900 text-zinc-100 flex flex-col flex-shrink-0">
-        <div class="px-6 py-5 border-b border-zinc-700">
-            <span class="text-lg font-bold tracking-tight">Cafe RJ</span>
-            <p class="text-xs text-zinc-400 mt-0.5">Point of Sale System</p>
+<div class="flex min-h-screen relative overflow-x-hidden">
+    <div id="sidebar-backdrop" onclick="toggleMobileSidebar()" class="fixed inset-0 bg-zinc-950/60 z-40 md:hidden hidden transition-opacity"></div>
+
+    <aside id="sidebar-menu" class="fixed inset-y-0 left-0 z-50 w-64 bg-zinc-900 text-zinc-100 flex flex-col flex-shrink-0 -translate-x-full md:translate-x-0 md:static transition-transform duration-200 ease-in-out shadow-xl md:shadow-none">
+        <div class="px-6 py-5 border-b border-zinc-700 flex items-center justify-between">
+            <div>
+                <span class="text-lg font-bold tracking-tight">Cafe RJ</span>
+                <p class="text-xs text-zinc-400 mt-0.5">Point of Sale System</p>
+            </div>
+            <button type="button" onclick="toggleMobileSidebar()" class="md:hidden p-1.5 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors" aria-label="Tutup Menu">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
         </div>
 
-        <nav class="flex-1 px-3 py-4 space-y-1">
+        <nav class="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
             <a href="{{ route('pos.index') }}" class="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium {{ request()->routeIs('pos.index') ? 'bg-zinc-700 text-white' : 'text-zinc-300 hover:bg-zinc-800 hover:text-white' }} transition-colors">
                 <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
                 Kasir POS
@@ -91,7 +98,7 @@ tailwind.config = {
 
         <div class="px-4 py-4 border-t border-zinc-700">
             <div class="flex items-center gap-3 mb-3">
-                <div class="w-8 h-8 rounded-full bg-zinc-600 flex items-center justify-center text-xs font-bold">
+                <div class="w-8 h-8 rounded-full bg-zinc-600 flex items-center justify-center text-xs font-bold flex-shrink-0">
                     {{ strtoupper(substr(auth()->user()->nama, 0, 1)) }}
                 </div>
                 <div class="min-w-0">
@@ -109,29 +116,52 @@ tailwind.config = {
         </div>
     </aside>
 
-    <main class="flex-1 flex flex-col min-w-0">
-        <header class="bg-white border-b border-zinc-200 px-6 py-4 flex items-center justify-between flex-shrink-0">
-            <h1 class="text-base font-semibold text-zinc-900">@yield('page-title', 'Dashboard')</h1>
-            <span class="text-xs text-zinc-500">{{ now()->translatedFormat('l, d F Y') }}</span>
+    <main class="flex-1 flex flex-col min-w-0 w-full">
+        <header class="bg-white border-b border-zinc-200 px-4 sm:px-6 py-3.5 sm:py-4 flex items-center justify-between flex-shrink-0 sticky top-0 z-30">
+            <div class="flex items-center gap-3 min-w-0">
+                <button type="button" onclick="toggleMobileSidebar()" class="md:hidden p-1.5 -ml-1 rounded-lg text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 transition-colors focus:outline-none" aria-label="Buka Menu">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                </button>
+                <h1 class="text-sm sm:text-base font-semibold text-zinc-900 truncate">@yield('page-title', 'Dashboard')</h1>
+            </div>
+            <span class="text-xs text-zinc-500 hidden sm:inline flex-shrink-0">{{ now()->translatedFormat('l, d F Y') }}</span>
         </header>
 
         @if(session('success'))
-        <div class="mx-6 mt-4 px-4 py-3 bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm rounded-lg">
+        <div class="mx-4 sm:mx-6 mt-4 px-4 py-3 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs sm:text-sm rounded-lg">
             {{ session('success') }}
         </div>
         @endif
 
         @if(session('error'))
-        <div class="mx-6 mt-4 px-4 py-3 bg-red-50 border border-red-200 text-red-800 text-sm rounded-lg">
+        <div class="mx-4 sm:mx-6 mt-4 px-4 py-3 bg-red-50 border border-red-200 text-red-800 text-xs sm:text-sm rounded-lg">
             {{ session('error') }}
         </div>
         @endif
 
-        <div class="flex-1 p-6 overflow-auto">
+        <div class="flex-1 p-3.5 sm:p-6 overflow-auto">
             @yield('content')
         </div>
     </main>
 </div>
+
+<script>
+function toggleMobileSidebar() {
+    const sidebar = document.getElementById('sidebar-menu');
+    const backdrop = document.getElementById('sidebar-backdrop');
+    if (!sidebar || !backdrop) return;
+    const isHidden = sidebar.classList.contains('-translate-x-full');
+    if (isHidden) {
+        sidebar.classList.remove('-translate-x-full');
+        backdrop.classList.remove('hidden');
+        document.body.classList.add('overflow-hidden');
+    } else {
+        sidebar.classList.add('-translate-x-full');
+        backdrop.classList.add('hidden');
+        document.body.classList.remove('overflow-hidden');
+    }
+}
+</script>
 
 </body>
 </html>

@@ -5,31 +5,31 @@
 
 @section('content')
 <div class="mb-5">
-    <form method="GET" action="{{ route('admin.reports.index') }}" class="flex items-end gap-3">
-        <div>
+    <form method="GET" action="{{ route('admin.reports.index') }}" class="flex flex-col sm:flex-row sm:items-end gap-3">
+        <div class="w-full sm:w-auto">
             <label class="block text-xs font-medium text-zinc-500 mb-1.5">Dari Tanggal</label>
-            <input type="date" name="dari" value="{{ $dari }}" class="px-3 py-2 text-sm border border-zinc-300 rounded-lg focus:outline-none focus:border-zinc-500">
+            <input type="date" name="dari" value="{{ $dari }}" class="w-full sm:w-auto px-3 py-2 text-sm border border-zinc-300 rounded-lg focus:outline-none focus:border-zinc-500">
         </div>
-        <div>
+        <div class="w-full sm:w-auto">
             <label class="block text-xs font-medium text-zinc-500 mb-1.5">Sampai Tanggal</label>
-            <input type="date" name="sampai" value="{{ $sampai }}" class="px-3 py-2 text-sm border border-zinc-300 rounded-lg focus:outline-none focus:border-zinc-500">
+            <input type="date" name="sampai" value="{{ $sampai }}" class="w-full sm:w-auto px-3 py-2 text-sm border border-zinc-300 rounded-lg focus:outline-none focus:border-zinc-500">
         </div>
-        <button type="submit" class="px-4 py-2 bg-zinc-900 text-white text-sm font-medium rounded-lg hover:bg-zinc-800 transition-colors">Tampilkan</button>
+        <button type="submit" class="w-full sm:w-auto px-4 py-2 bg-zinc-900 text-white text-sm font-medium rounded-lg hover:bg-zinc-800 transition-colors">Tampilkan</button>
     </form>
 </div>
 
-<div class="grid grid-cols-3 gap-4 mb-6">
-    <div class="bg-white rounded-xl border border-zinc-200 p-5">
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-6">
+    <div class="bg-white rounded-xl border border-zinc-200 p-4 sm:p-5">
         <p class="text-xs text-zinc-500 uppercase tracking-wide font-medium">Total Omzet</p>
-        <p class="text-2xl font-bold text-zinc-900 mt-2 tabular-nums">Rp {{ number_format($totalOmzet, 0, ',', '.') }}</p>
+        <p class="text-xl sm:text-2xl font-bold text-zinc-900 mt-1 sm:mt-2 tabular-nums">Rp {{ number_format($totalOmzet, 0, ',', '.') }}</p>
     </div>
-    <div class="bg-white rounded-xl border border-zinc-200 p-5">
+    <div class="bg-white rounded-xl border border-zinc-200 p-4 sm:p-5">
         <p class="text-xs text-zinc-500 uppercase tracking-wide font-medium">Total Transaksi</p>
-        <p class="text-2xl font-bold text-zinc-900 mt-2 tabular-nums">{{ number_format($totalTransaksi, 0, ',', '.') }}</p>
+        <p class="text-xl sm:text-2xl font-bold text-zinc-900 mt-1 sm:mt-2 tabular-nums">{{ number_format($totalTransaksi, 0, ',', '.') }}</p>
     </div>
-    <div class="bg-white rounded-xl border border-zinc-200 p-5">
+    <div class="bg-white rounded-xl border border-zinc-200 p-4 sm:p-5">
         <p class="text-xs text-zinc-500 uppercase tracking-wide font-medium">Item Terjual</p>
-        <p class="text-2xl font-bold text-zinc-900 mt-2 tabular-nums">{{ number_format($totalItem, 0, ',', '.') }}</p>
+        <p class="text-xl sm:text-2xl font-bold text-zinc-900 mt-1 sm:mt-2 tabular-nums">{{ number_format($totalItem, 0, ',', '.') }}</p>
     </div>
 </div>
 
