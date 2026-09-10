@@ -22,23 +22,42 @@ tailwind.config = {
 }
 </script>
 <style>
+:root {
+    --sb-thumb: #d4d4d8;
+    --sb-thumb-hover: #71717a;
+    --sb-track: transparent;
+}
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--sb-thumb) var(--sb-track);
+}
 ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
 }
 ::-webkit-scrollbar-track {
-    background: transparent;
+    background: var(--sb-track);
 }
 ::-webkit-scrollbar-thumb {
-    background: #d4d4d8;
+    background: var(--sb-thumb);
     border-radius: 9999px;
+    transition: background 0.15s ease;
 }
 ::-webkit-scrollbar-thumb:hover {
-    background: #a1a1aa;
+    background: var(--sb-thumb-hover);
 }
-* {
-    scrollbar-width: thin;
-    scrollbar-color: #d4d4d8 transparent;
+
+select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: #ffffff;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2371717a' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 1rem;
+    padding-right: 2.5rem !important;
+    cursor: pointer;
 }
 </style>
 </head>
@@ -161,6 +180,138 @@ function toggleMobileSidebar() {
         document.body.classList.remove('overflow-hidden');
     }
 }
+
+function initCustomSelects() {
+    document.querySelectorAll('select:not([data-customized])').forEach(function(sel) {
+        sel.setAttribute('data-customized', 'true');
+        
+        const wrapper = document.createElement('div');
+        wrapper.className = 'custom-select-wrapper relative w-full';
+        sel.parentNode.insertBefore(wrapper, sel);
+        wrapper.appendChild(sel);
+        
+        sel.classList.add('sr-only');
+        sel.tabIndex = -1;
+        
+        const trigger = document.createElement('button');
+        trigger.type = 'button';
+        trigger.className = 'custom-select-trigger w-full px-3 py-2.5 text-sm bg-white border border-zinc-300 rounded-lg flex items-center justify-between shadow-sm hover:border-zinc-400 focus:outline-none focus:border-zinc-900 focus:ring-2 focus:ring-zinc-100 transition-all text-left';
+        
+        if (sel.classList.contains('border-red-400') || sel.matches('.border-red-400')) {
+            trigger.classList.add('border-red-400', 'bg-red-50');
+        }
+        
+        const label = document.createElement('span');
+        label.className = 'truncate text-zinc-900 font-medium';
+        const selectedOpt = sel.options[sel.selectedIndex] || sel.options[0];
+        label.textContent = selectedOpt ? selectedOpt.textContent : '';
+        if (selectedOpt && selectedOpt.value === '') {
+            label.className = 'truncate text-zinc-400';
+        }
+        
+        const arrow = document.createElement('span');
+        arrow.className = 'ml-2 text-zinc-400 flex-shrink-0 transition-transform duration-200';
+        arrow.innerHTML = '<svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>';
+        
+        trigger.appendChild(label);
+        trigger.appendChild(arrow);
+        wrapper.appendChild(trigger);
+        
+        const menu = document.createElement('div');
+        menu.className = 'custom-select-menu hidden absolute left-0 right-0 z-50 mt-1.5 max-h-60 overflow-y-auto bg-white border border-zinc-200 rounded-xl shadow-lg p-1.5 space-y-0.5';
+        
+        function updateMenuOptions() {
+            menu.innerHTML = '';
+            Array.from(sel.options).forEach(function(opt) {
+                const item = document.createElement('div');
+                const isSelected = opt.selected;
+                item.className = 'custom-select-option px-3 py-2 text-sm rounded-lg cursor-pointer flex items-center justify-between transition-colors ' + 
+                    (isSelected ? 'bg-zinc-900 text-white font-medium' : 'text-zinc-700 hover:bg-zinc-100 hover:text-zinc-900');
+                
+                const itemText = document.createElement('span');
+                itemText.textContent = opt.textContent;
+                item.appendChild(itemText);
+                
+                if (isSelected && opt.value !== '') {
+                    const check = document.createElement('span');
+                    check.innerHTML = '<svg class="w-3.5 h-3.5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+                    item.appendChild(check);
+                }
+                
+                item.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    sel.value = opt.value;
+                    sel.dispatchEvent(new Event('change', { bubbles: true }));
+                    label.textContent = opt.textContent;
+                    label.className = opt.value === '' ? 'truncate text-zinc-400' : 'truncate text-zinc-900 font-medium';
+                    closeDropdown();
+                    updateMenuOptions();
+                });
+                
+                menu.appendChild(item);
+            });
+        }
+        
+        updateMenuOptions();
+        wrapper.appendChild(menu);
+        
+        function openDropdown() {
+            closeAllCustomSelects(wrapper);
+            menu.classList.remove('hidden');
+            arrow.classList.add('rotate-180');
+            trigger.classList.add('border-zinc-900', 'ring-2', 'ring-zinc-100');
+        }
+        
+        function closeDropdown() {
+            menu.classList.add('hidden');
+            arrow.classList.remove('rotate-180');
+            trigger.classList.remove('border-zinc-900', 'ring-2', 'ring-zinc-100');
+        }
+        
+        trigger.addEventListener('click', function(e) {
+            e.stopPropagation();
+            if (menu.classList.contains('hidden')) {
+                openDropdown();
+            } else {
+                closeDropdown();
+            }
+        });
+        
+        sel.addEventListener('change', function() {
+            const current = sel.options[sel.selectedIndex];
+            if (current) {
+                label.textContent = current.textContent;
+                label.className = current.value === '' ? 'truncate text-zinc-400' : 'truncate text-zinc-900 font-medium';
+            }
+            updateMenuOptions();
+        });
+    });
+}
+
+function closeAllCustomSelects(except) {
+    document.querySelectorAll('.custom-select-wrapper').forEach(function(wrap) {
+        if (wrap !== except) {
+            const m = wrap.querySelector('.custom-select-menu');
+            const a = wrap.querySelector('.custom-select-trigger span:last-child');
+            const t = wrap.querySelector('.custom-select-trigger');
+            if (m) m.classList.add('hidden');
+            if (a) a.classList.remove('rotate-180');
+            if (t) t.classList.remove('border-zinc-900', 'ring-2', 'ring-zinc-100');
+        }
+    });
+}
+
+document.addEventListener('click', function() {
+    closeAllCustomSelects();
+});
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closeAllCustomSelects();
+    }
+});
+
+window.addEventListener('DOMContentLoaded', initCustomSelects);
 </script>
 
 </body>

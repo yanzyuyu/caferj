@@ -13,6 +13,32 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
 <script>tailwind.config = { theme: { extend: { fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] } } } }</script>
+<style>
+:root {
+    --sb-thumb: #d4d4d8;
+    --sb-thumb-hover: #71717a;
+    --sb-track: transparent;
+}
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--sb-thumb) var(--sb-track);
+}
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: var(--sb-track);
+}
+::-webkit-scrollbar-thumb {
+    background: var(--sb-thumb);
+    border-radius: 9999px;
+    transition: background 0.15s ease;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--sb-thumb-hover);
+}
+</style>
 </head>
 <body class="bg-zinc-100 font-sans min-h-screen flex items-center justify-center p-4">
 

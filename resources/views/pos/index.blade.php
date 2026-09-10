@@ -15,23 +15,29 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <script>tailwind.config = { theme: { extend: { fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] } } } }</script>
 <style>
+:root {
+    --sb-thumb: #d4d4d8;
+    --sb-thumb-hover: #71717a;
+    --sb-track: transparent;
+}
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--sb-thumb) var(--sb-track);
+}
 ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
 }
 ::-webkit-scrollbar-track {
-    background: transparent;
+    background: var(--sb-track);
 }
 ::-webkit-scrollbar-thumb {
-    background: #d4d4d8;
+    background: var(--sb-thumb);
     border-radius: 9999px;
+    transition: background 0.15s ease;
 }
 ::-webkit-scrollbar-thumb:hover {
-    background: #a1a1aa;
-}
-* {
-    scrollbar-width: thin;
-    scrollbar-color: #d4d4d8 transparent;
+    background: var(--sb-thumb-hover);
 }
 
 .payment-panel {

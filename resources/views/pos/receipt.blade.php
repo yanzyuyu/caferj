@@ -14,6 +14,31 @@
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
+:root {
+    --sb-thumb: #d4d4d8;
+    --sb-thumb-hover: #71717a;
+    --sb-track: transparent;
+}
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--sb-thumb) var(--sb-track);
+}
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: var(--sb-track);
+}
+::-webkit-scrollbar-thumb {
+    background: var(--sb-thumb);
+    border-radius: 9999px;
+    transition: background 0.15s ease;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--sb-thumb-hover);
+}
+
 body {
     font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     color: #18181b;
@@ -206,7 +231,6 @@ tbody td {
     line-height: 1.6;
 }
 
-/* Thermal mode for compact 80mm printers */
 .receipt-card.mode-thermal {
     max-width: 320px;
     padding: 20px 16px;
@@ -265,7 +289,120 @@ tbody td {
     border-top: 1px dashed #000;
 }
 
-/* Print CSS: Stretches 100% full width */
+@media (max-width: 640px) {
+    body {
+        padding: 12px 8px;
+    }
+
+    .no-print {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 12px;
+        gap: 8px;
+    }
+
+    .btn-group {
+        flex-direction: column;
+        width: 100%;
+        gap: 8px;
+    }
+
+    .btn {
+        width: 100%;
+        justify-content: center;
+        padding: 10px 14px;
+        font-size: 13px;
+    }
+
+    .receipt-card {
+        padding: 20px 14px;
+        border-radius: 12px;
+    }
+
+    .header-top {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        padding-bottom: 14px;
+        margin-bottom: 16px;
+    }
+
+    .brand-title {
+        font-size: 20px;
+    }
+
+    .invoice-badge {
+        text-align: left;
+    }
+
+    .meta-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px 12px;
+        padding: 12px 14px;
+        margin-bottom: 16px;
+    }
+
+    .meta-label {
+        font-size: 9px;
+    }
+
+    .meta-val {
+        font-size: 12px;
+    }
+
+    .table-wrap {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        margin-bottom: 16px;
+    }
+
+    table {
+        min-width: 320px;
+        font-size: 12px;
+    }
+
+    thead th {
+        padding: 8px 6px;
+        font-size: 10px;
+    }
+
+    tbody td {
+        padding: 8px 6px;
+        font-size: 12px;
+    }
+
+    .col-no {
+        display: none;
+    }
+
+    .summary-container {
+        justify-content: stretch;
+        margin-bottom: 16px;
+    }
+
+    .summary-box {
+        width: 100%;
+        padding: 14px 16px;
+    }
+
+    .summary-row {
+        font-size: 12px;
+        margin-bottom: 6px;
+    }
+
+    .summary-row.total-row {
+        font-size: 15px;
+        padding-top: 8px;
+        margin-top: 8px;
+        margin-bottom: 8px;
+    }
+
+    .footer-section {
+        padding-top: 14px;
+        font-size: 11px;
+    }
+}
+
 @media print {
     body {
         background: #ffffff !important;
@@ -353,7 +490,7 @@ tbody td {
         <table>
             <thead>
                 <tr>
-                    <th style="width: 5%;">No</th>
+                    <th class="col-no" style="width: 5%;">No</th>
                     <th>Nama Menu</th>
                     <th class="text-right" style="width: 20%;">Harga Satuan</th>
                     <th class="text-center" style="width: 15%;">Qty</th>
@@ -363,7 +500,7 @@ tbody td {
             <tbody>
                 @foreach($transaction->details as $index => $detail)
                 <tr>
-                    <td class="text-zinc-400 tabular-nums">{{ $index + 1 }}</td>
+                    <td class="col-no text-zinc-400 tabular-nums">{{ $index + 1 }}</td>
                     <td style="font-weight: 600;">{{ $detail->product->nama_menu }}</td>
                     <td class="text-right tabular-nums">Rp {{ number_format($detail->product->harga, 0, ',', '.') }}</td>
                     <td class="text-center tabular-nums font-semibold">{{ $detail->jumlah_beli }}</td>
