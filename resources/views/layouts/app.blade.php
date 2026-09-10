@@ -180,13 +180,21 @@ span.flatpickr-weekday {
 
 input.flatpickr-input,
 input.flatpickr-input[readonly],
-.flatpickr-input.form-control {
+.flatpickr-input.form-control,
+.flatpickr-calendar,
+.flatpickr-calendar * {
     cursor: pointer !important;
     user-select: none !important;
     -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    caret-color: transparent !important;
 }
 
-input.flatpickr-input::selection {
+input.flatpickr-input::selection,
+input.flatpickr-input::-moz-selection,
+.flatpickr-calendar *::selection,
+.flatpickr-calendar *::-moz-selection {
     background: transparent !important;
     color: inherit !important;
 }
@@ -458,17 +466,37 @@ function initDatePicker() {
                 if (!input) return;
                 let wasOpen = false;
 
-                input.addEventListener('mousedown', function() {
+                input.setAttribute('readonly', 'readonly');
+                input.setAttribute('onselectstart', 'return false;');
+                input.setAttribute('autocomplete', 'off');
+                input.style.userSelect = 'none';
+                input.style.webkitUserSelect = 'none';
+                input.style.caretColor = 'transparent';
+
+                input.addEventListener('selectstart', function(e) {
+                    e.preventDefault();
+                    return false;
+                });
+
+                input.addEventListener('mousedown', function(e) {
                     wasOpen = instance.isOpen;
+                    e.preventDefault();
                 });
 
                 input.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
                     if (wasOpen) {
-                        e.preventDefault();
-                        e.stopPropagation();
                         instance.close();
                         input.blur();
+                    } else {
+                        instance.open();
                     }
+                });
+
+                input.addEventListener('dblclick', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
                 });
 
                 input.addEventListener('focus', function() {
@@ -480,7 +508,8 @@ function initDatePicker() {
                     }
                 });
 
-                input.addEventListener('select', function() {
+                input.addEventListener('select', function(e) {
+                    e.preventDefault();
                     try {
                         input.setSelectionRange(0, 0);
                     } catch (err) {}
