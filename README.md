@@ -227,4 +227,4 @@ Hasil verifikasi: Status PASSED (Skor 100/100, 0 temuan kerentanan).
 
 ## Lisensi
 
-Proyek ini dikembangkan di bawah lisensi MIT.
+Proyek ini dikembangkan di bawah [lisensi MIT](LICENSE).
