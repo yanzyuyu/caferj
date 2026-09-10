@@ -177,6 +177,19 @@ span.flatpickr-weekday {
     background: #fafafa !important;
     color: #a1a1aa !important;
 }
+
+input.flatpickr-input,
+input.flatpickr-input[readonly],
+.flatpickr-input.form-control {
+    cursor: pointer !important;
+    user-select: none !important;
+    -webkit-user-select: none !important;
+}
+
+input.flatpickr-input::selection {
+    background: transparent !important;
+    color: inherit !important;
+}
 </style>
 </head>
 <body class="bg-zinc-50 font-sans text-zinc-800">
@@ -438,7 +451,44 @@ function initDatePicker() {
             dateFormat: 'Y-m-d',
             altInput: true,
             altFormat: 'j F Y',
-            disableMobile: true
+            disableMobile: true,
+            allowInput: false,
+            onReady: function(selectedDates, dateStr, instance) {
+                const input = instance.altInput || instance.input;
+                if (!input) return;
+                let wasOpen = false;
+
+                input.addEventListener('mousedown', function() {
+                    wasOpen = instance.isOpen;
+                });
+
+                input.addEventListener('click', function(e) {
+                    if (wasOpen) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        instance.close();
+                        input.blur();
+                    }
+                });
+
+                input.addEventListener('focus', function() {
+                    try {
+                        input.setSelectionRange(0, 0);
+                    } catch (err) {}
+                    if (window.getSelection) {
+                        window.getSelection().removeAllRanges();
+                    }
+                });
+
+                input.addEventListener('select', function() {
+                    try {
+                        input.setSelectionRange(0, 0);
+                    } catch (err) {}
+                    if (window.getSelection) {
+                        window.getSelection().removeAllRanges();
+                    }
+                });
+            }
         });
     }
 }
