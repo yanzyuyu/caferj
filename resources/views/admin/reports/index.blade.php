@@ -8,13 +8,19 @@
     <form method="GET" action="{{ route('admin.reports.index') }}" class="flex flex-col sm:flex-row sm:items-end gap-3">
         <div class="w-full sm:w-auto">
             <label class="block text-xs font-medium text-zinc-500 mb-1.5">Dari Tanggal</label>
-            <input type="date" name="dari" value="{{ $dari }}" class="w-full sm:w-auto px-3 py-2 text-sm border border-zinc-300 rounded-lg focus:outline-none focus:border-zinc-500">
+            <div class="relative">
+                <input type="date" name="dari" value="{{ $dari }}" class="w-full sm:w-auto pl-9 pr-3 py-2 text-sm border border-zinc-300 rounded-lg focus:outline-none focus:border-zinc-900 focus:ring-2 focus:ring-zinc-100 bg-white font-medium cursor-pointer shadow-sm">
+                <svg class="w-4 h-4 text-zinc-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </div>
         </div>
         <div class="w-full sm:w-auto">
             <label class="block text-xs font-medium text-zinc-500 mb-1.5">Sampai Tanggal</label>
-            <input type="date" name="sampai" value="{{ $sampai }}" class="w-full sm:w-auto px-3 py-2 text-sm border border-zinc-300 rounded-lg focus:outline-none focus:border-zinc-500">
+            <div class="relative">
+                <input type="date" name="sampai" value="{{ $sampai }}" class="w-full sm:w-auto pl-9 pr-3 py-2 text-sm border border-zinc-300 rounded-lg focus:outline-none focus:border-zinc-900 focus:ring-2 focus:ring-zinc-100 bg-white font-medium cursor-pointer shadow-sm">
+                <svg class="w-4 h-4 text-zinc-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </div>
         </div>
-        <button type="submit" class="w-full sm:w-auto px-4 py-2 bg-zinc-900 text-white text-sm font-medium rounded-lg hover:bg-zinc-800 transition-colors">Tampilkan</button>
+        <button type="submit" class="w-full sm:w-auto px-4 py-2 bg-zinc-900 text-white text-sm font-medium rounded-lg hover:bg-zinc-800 transition-colors shadow-sm">Tampilkan</button>
     </form>
 </div>
 
